@@ -25,6 +25,6 @@ with db:
         cursor.execute(sql3)
     
     db.commit()
-
+db.commit()
 
 
