@@ -1,30 +1,26 @@
-from sshtunnel import SSHTunnelForwarder
-import pymysql
+import mysql.connector
+import sys
+import boto3
+import os
 
-  # SSH (ec2_public_dns, ec2_user, pem_path, remote_bind_address=(rds_instance_access_point, port))
-with SSHTunnelForwarder(('ec2-52-202-194-76.public-ec2-instance.amazonaws.com'), 
-                        ssh_username="ec2-user", ssh_pkey="~/ssh-tunnel-rds.pem", 
-                        remote_bind_address=('private-rds-instance.ckfkidfytpr4.us-east-1.rds.amazonaws.com', 3306)) as tunnel:
-    print("****SSH Tunnel Established****")
+ENDPOINT = 'carrental-db.cvwquqtl5fz5.eu-central-1.rds.amazonaws.com'
+PORT = '3306'
+USER = 'Karastoyanov'
+REGION = 'eu-central-1c'
+DBNAME = 'carrental-db'
 
-    db = pymysql.connect(
-        host='127.0.0.1', user="rdsuser",password="rdspassword",
-        port=tunnel.local_bind_port, database="dbName"
-    )
-    # Run sample query in the database to validate connection
-    try:
-        # Print all the databases
-        with db.cursor() as cur:
-            # Print all the tables from the database
-            cur.execute('SHOW TABLES FROM dbName')
-            for r in cur:
-                print(r)
+os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
 
-            # Print all the data from the table
-            cur.execute('SELECT * FROM table_name')
-            for r in cur:
-                print(r)
-    finally:
-        db.close()
+session = boto3.Session(profile_name='Karastoyanov')
+client = session.cleint('rds')
 
-print("YAYY!!")
+token = client.generate_db_auth_token(DBHostname=ENDPOINT, Port=PORT, DBUsername=USER, Region=REGION)
+
+try:
+    conn =  mysql.connector.connect(host=ENDPOINT, user=USER, passwd=token, port=PORT, database=DBNAME, ssl_ca='rds-ca-2019')
+    cur = conn.cursor()
+    cur.execute("""SELECT now()""")
+    query_results = cur.fetchall()
+    print(query_results)
+except Exception as e:
+    print("Database connection failed due to {}".format(e))
