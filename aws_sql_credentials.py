@@ -1,26 +1,27 @@
 import mysql.connector
-import sys
-import boto3
-import os
+import pymysql
 
-ENDPOINT = 'carrental-db.cvwquqtl5fz5.eu-central-1.rds.amazonaws.com'
-PORT = '3306'
-USER = 'Karastoyanov'
-REGION = 'eu-central-1c'
-DBNAME = 'carrental-db'
+db = pymysql.connect(host = "carrental-db2.cvwquqtl5fz5.eu-central-1.rds.amazonaws.com", user = "admin", password = "Password1", port = 3306)
 
-os.environ['LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN'] = '1'
+# cursor = db.cursor()
+# cursor.execute('select version();')
 
-session = boto3.Session(profile_name='Karastoyanov')
-client = session.cleint('rds')
+# data = cursor.fetchone()
 
-token = client.generate_db_auth_token(DBHostname=ENDPOINT, Port=PORT, DBUsername=USER, Region=REGION)
+# with db:
+#     with db.cursor() as cursor:
+#         sql = 'use carrentaldb'
+#         cursor.execute(sql)
+    
 
-try:
-    conn =  mysql.connector.connect(host=ENDPOINT, user=USER, passwd=token, port=PORT, database=DBNAME, ssl_ca='rds-ca-2019')
-    cur = conn.cursor()
-    cur.execute("""SELECT now()""")
-    query_results = cur.fetchall()
-    print(query_results)
-except Exception as e:
-    print("Database connection failed due to {}".format(e))
+#     with db.cursor() as cursor:
+#         sql2 = 'insert into customers values (001, "Ivan", "Ivanov")'
+#         cursor.execute(sql2)
+#         result = cursor.fetchall()
+    
+#     with db.cursor() as cursor:
+#         sql3 = 'select * from customers'
+#         cursor.execute(sql3)
+#         result = cursor.fetchall()
+#         print(result)
+#     db.commit()
