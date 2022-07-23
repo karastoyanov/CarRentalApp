@@ -1,3 +1,11 @@
-Instance Identifier: carrental_db2
+Instance Identifier: carrental_db
+RDS hostname: carrental-db2.cvwquqtl5fz5.eu-central-1.rds.amazonaws.com
+Port: 3306
+
+Credentials for Aleksandar Karastoyanov
 Username: admin
 Password: Password1
+
+Credentials for Velislav Angelov
+Username: velislav
+Password: Parola1!

@@ -1,30 +1,55 @@
 import aws_sql_credentials as awsdb
 
 db = awsdb.db
-
-id = int(input())
-fname = input()
-sname = input()
-    
 cursor = db.cursor()
+
+# Insert new customer into 'customer' table
+while True:
+    cust_id = input("Customers's ID(in format XXXXX):")
+    if len(cust_id) != 5:
+        print('ID not in correct format. ID must be 5 characters, letters and numbers are allowed.\n*************')
+        continue
+    else:
+        break
+    
+while True:   
+    first_name = input("Customer's first name: ")
+    if len(first_name) > 50:
+        print("First name too long! Max 50 symbols allowed.\n*************")
+        continue
+    else:
+        break
+    
+while True:
+    second_name = input("Customers's last name: ")
+    if len(second_name) > 50:
+        print("Last name too long! Max 50 symbols max allowed.\n*************")
+        continue
+    else:
+        break
+    
+while True:   
+    phone_number = input("Enter customer's phone number in format XXXX/XXXXXX: ")
+    if len(phone_number) > 15:
+        print("Phone number format incorect. 15 symbols max allowed.\n*************")
+        continue
+    else:
+        break
+
+email = input("Enter customer's email address: ")
+cust_status = 'NEW'
+
+
+
 
 with db:
     with db.cursor():
-        sql = 'use carrentaldb'
-        cursor.execute(sql)
-    
-    with db.cursor():
-        sql2 = 'select * from customers'
-        cursor.execute(sql2)
-        result = cursor.fetchall()
-        print(result)
-    
-    with db.cursor():
-        sql3 = """INSERT INTO customers VALUES (id, 'fname', 'sname')"""
-        # record = (id, fname, sname)
-        cursor.execute(sql3)
-    
+        # This one below works
+        sql = """INSERT INTO `customers` (cust_id, first_name, second_name, phone, email, cust_status) VALUES (%s, %s, %s, %s, %s, %s) """
+        cursor.execute(sql, (cust_id, first_name, second_name, phone_number, email, cust_status))
+        db.commit()
     db.commit()
-db.commit()
 
-
+# TO DO: 
+# New field in customers table with date created
+# New field with numbers of orders/car rentals

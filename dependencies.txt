@@ -1,0 +1,3 @@
+Following PY librabries are required:
+
+# mypysql --> pip install mypysql
