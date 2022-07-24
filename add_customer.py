@@ -1,9 +1,11 @@
+# Function to add new customer into the database;
+
 import aws_sql_credentials as awsdb
 
 db = awsdb.db
 cursor = db.cursor()
 
-# Insert new customer into 'customer' table
+# Insert new customer into 'customers' table
 while True:
     cust_id = input("Customers's ID(in format XXXXX):")
     if len(cust_id) != 5:
@@ -49,6 +51,9 @@ with db:
         cursor.execute(sql, (cust_id, first_name, second_name, phone_number, email, cust_status))
         db.commit()
     db.commit()
+
+
+
 
 # TO DO: 
 # New field in customers table with date created
