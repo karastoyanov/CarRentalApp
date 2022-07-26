@@ -1,6 +1,7 @@
 # Function to add new customer into the database;
 
 import aws_sql_credentials as awsdb
+import datetime 
 
 db = awsdb.db
 cursor = db.cursor()
@@ -42,13 +43,17 @@ email = input("Enter customer's email address: ")
 cust_status = 'NEW'
 
 
+customerDate = datetime.datetime.now();
+date = customerDate.strftime("%x")
+
+
 
 
 with db:
     with db.cursor():
         # This one below works
-        sql = """INSERT INTO `customers` (cust_id, first_name, second_name, phone, email, cust_status) VALUES (%s, %s, %s, %s, %s, %s) """
-        cursor.execute(sql, (cust_id, first_name, second_name, phone_number, email, cust_status))
+        sql = """INSERT INTO `customers` (cust_id, first_name, second_name, phone, email, cust_status, date) VALUES (%s, %s, %s, %s, %s, %s, %s) """
+        cursor.execute(sql, (cust_id, first_name, second_name, phone_number, email, cust_status, date))
         db.commit()
     db.commit()
 
@@ -58,3 +63,7 @@ with db:
 # TO DO: 
 # New field in customers table with date created
 # New field with numbers of orders/car rentals
+
+
+
+
