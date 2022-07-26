@@ -42,7 +42,7 @@ while True:
 email = input("Enter customer's email address: ")
 cust_status = 'NEW'
 
-
+#Just a try with the date not finished its not the way i would like but give it a try it works also added a column in the table 
 customerDate = datetime.datetime.now();
 date = customerDate.strftime("%x")
 
