@@ -6,9 +6,26 @@ import datetime
 db = awsdb.db
 cursor = db.cursor()
 
+# Function to verify if the new customer's ID is already exisitng in the database(Not allowed two records with same ID)
+def check_for_doubles(customer_id):
+    cursor.execute("""SELECT * FROM customers""")
+    result = cursor.fetchall()
+    for row in result:
+        to_check = row[0]
+        if customer_id == to_check:
+            return True
+        else:
+            continue
+    return False
+    
+
 # Insert new customer into 'customers' table
 while True:
     cust_id = input("Customers's ID(in format XXXXX):")
+    if check_for_doubles(cust_id) is True:
+        print("\nCustomer's ID already existing")
+        continue
+    
     if len(cust_id) != 5:
         print('ID not in correct format. ID must be 5 characters, letters and numbers are allowed.\n*************')
         continue

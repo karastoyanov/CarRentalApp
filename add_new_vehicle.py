@@ -48,8 +48,14 @@ while True:
 
 price_per_day = input("Vehicle's price per day: ")
 
+# Default value for how many times the specific vehicle was rented.
+times_rented = 0  
+
+#Enter a URL address for the specific vehicle from https://www.auto-data.net
+full_specs_url = input("Enter vehicle's full specs page: ")
+
 with db.cursor():
-    sql = """INSERT INTO vehicles (vehichle_id, brand, model, engine_size, horse_power, price_per_day) VALUES (%s, %s, %s, %s, %s, %s)"""
-    cursor.execute(sql, (veh_id, brand, model, engine, horse_power, price_per_day))
+    sql = """INSERT INTO vehicles (vehichle_id, brand, model, engine_size, horse_power, price_per_day, times_rented, full_specs) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+    cursor.execute(sql, (veh_id, brand, model, engine, horse_power, price_per_day, times_rented, full_specs_url))
     print("New vehicle {brand} {model} with ID {veh_id} successfully added.")
     db.commit()
