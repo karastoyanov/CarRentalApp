@@ -12,6 +12,7 @@ for row in result:
     print("Customer Phone number: ", row[3])
     print("Customer Email address: ", row[4])
     print("Customer Status: ", row[5])
+    print("Registration date: ", row[6])
     print("************************************************************************************************")
     print('\n')
 print("\n!!!!!!!!END!!!!!!!!")
