@@ -1,5 +1,3 @@
-from sqlite3 import Cursor
-from tkinter import HORIZONTAL
 import aws_sql_credentials as awsdb
 
 db = awsdb.db
@@ -13,7 +11,6 @@ while True:
         continue
     else:
         break
-
 
 while True:
     brand = input("Vehicle's brand: ")

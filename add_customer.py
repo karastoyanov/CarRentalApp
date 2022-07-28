@@ -60,7 +60,7 @@ email = input("Enter customer's email address: ")
 cust_status = 'NEW'
 
 
-customerDate = datetime.datetime.now();
+customerDate = datetime.datetime.now()
 date = customerDate.strftime("%x")
 
 
