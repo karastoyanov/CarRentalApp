@@ -123,6 +123,6 @@ while True:
     
     
 # TO DO:
-# order_id data type in MySQL to be change(longer VARCHAR with min. 10 symbols)
-# in orders table(in MySQL DB) new column to be added with deadline/order duration date
+# order_id data type in MySQL to be change(longer VARCHAR with min. 10 symbols) !!!!!  DONE !!!!! 
+# in orders table(in MySQL DB) new column to be added with deadline/order duration date !!!! DONE !!!!
 # to do a order counter for the respective customer
