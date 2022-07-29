@@ -69,7 +69,7 @@ while True:
         print("************************************************************************************************")
         print('\n')
     user_choice = input("Select the vehicle ID:\n")
-    sql = """SELECT * FROM vehicles WHERE vehichle_id LIKE %s"""
+    sql = """SELECT * FROM vehicles WHERE vehicle_id LIKE %s"""
     result = cursor.execute(sql, (user_choice))
     query_result = cursor.fetchone()
     if query_result:
