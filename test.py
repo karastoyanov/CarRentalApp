@@ -23,6 +23,6 @@ cus_input = input("Insert: ")
 
 for result in row:
         
-        if cus_input == result[0]:
-            print(f"You have chosen {result[1]} {result[2]} great choice!" )
+    if cus_input == result[0]:
+        print(f"You have chosen {result[1]} {result[2]} great choice!" )
 
