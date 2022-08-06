@@ -1,3 +1,9 @@
+# TO DO:
+# order_id data type in MySQL to be change(longer VARCHAR with min. 10 symbols) !!!!!  DONE !!!!! 
+# in orders table(in MySQL DB) new column to be added with deadline/order duration date !!!! DONE !!!!
+# to do a order counter for the respective customer
+
+
 import aws_sql_credentials as awsdb
 import random
 import datetime
@@ -69,11 +75,11 @@ while True:
         print("************************************************************************************************")
         print('\n')
     user_choice = input("Select the vehicle ID:\n")
-    sql = """SELECT * FROM vehicles WHERE vehicle_id LIKE %s"""
+    sql = """SELECT * FROM vehicles WHERE vehicle_id = %s"""
     result = cursor.execute(sql, (user_choice))
     query_result = cursor.fetchone()
     if query_result:
-        current_vehicle = row[1] + " " + row[2]
+        current_vehicle = query_result[1] + " " + query_result[2]
         print(f"Successfully selected {current_vehicle}")
         break
     else:
@@ -99,7 +105,7 @@ total_price = int(duration) * int(row[5])
 print("\n************************************************************************************************")
 print(f"Order ID: {order_id}")
 print(f"Customer: {f_name} {l_name}")
-print(f"Vehicle: {row[1] + row[2]}")
+print(f"Vehicle: {current_vehicle}")
 end_date = current_date + datetime.timedelta(days=int(duration))
 print(f"Order valid until: {end_date}")
 print(f"Final price: \n{total_price} USD")
@@ -122,7 +128,3 @@ while True:
         break
     
     
-# TO DO:
-# order_id data type in MySQL to be change(longer VARCHAR with min. 10 symbols) !!!!!  DONE !!!!! 
-# in orders table(in MySQL DB) new column to be added with deadline/order duration date !!!! DONE !!!!
-# to do a order counter for the respective customer

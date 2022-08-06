@@ -1,3 +1,7 @@
+# TO DO: 
+# New field with numbers of orders/car rentals
+
+
 # Function to add new customer into the database;
 
 import aws_sql_credentials as awsdb
@@ -78,8 +82,7 @@ with db.cursor():
 
 
 
-# TO DO: 
-# New field with numbers of orders/car rentals
+
 
 
 
