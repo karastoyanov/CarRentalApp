@@ -2,3 +2,4 @@ Following PY librabries are required:
 
 # mypysql --> pip install mypysql
 # tkinter --> pip install tk
+# pyqt5 --> pip install pyqt5
