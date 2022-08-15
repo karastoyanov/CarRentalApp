@@ -1,6 +1,6 @@
 #Function to show all orders
 
-import aws_sql_credentials as awsdb
+import carrentalapp.aws_sql_credentials as awsdb
 
 db = awsdb.db
 cursor = db.cursor()

@@ -1,11 +1,12 @@
 # TO DO: 
 # New field with numbers of orders/car rentals
 
-
-# Function to add new customer into the database;
-
-import aws_sql_credentials as awsdb
-import datetime 
+import carrentalapp.aws_sql_credentials as awsdb
+from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox)
+from PyQt5.QtCore import (QDateTime, QDate, QTime, Qt)
+import datetime
+import random
+from carrentalapp import addCustomer
 
 db = awsdb.db
 cursor = db.cursor()
@@ -22,20 +23,36 @@ def check_for_doubles(customer_id):
             continue
     return False
     
+# Function to create a new random customer ID -- > \
+    # Frist two chars are capital letters followed by 8 digits  
+def generate_id(lenght):
+    customer_id= []
+    for i in range(lenght):
+        if i == 0 or i == 1:
+            customer_id.append(chr(random.randrange(65, 90)))
+        else:
+            customer_id.append(chr(random.randrange(48, 57)))
+    result = ''.join(customer_id)
+    return result
 
-# Insert new customer into 'customers' table
+# Function to verify if another customer with same ID already exists
+def check_for_doubles(customer_id):
+    cursor.execute("""SELECT * FROM customers""")
+    result = cursor.fetchall()
+    for row in result:
+        to_check = row[0]
+        if customer_id == to_check:
+            return True
+        else:
+            continue
+    return False
+
 while True:
-    cust_id = input("Customers's ID(in format XXXXX):")
-    if check_for_doubles(cust_id) is True:
-        print("\nCustomer's ID already existing")
-        continue
-    
-    if len(cust_id) != 5:
-        print('ID not in correct format. ID must be 5 characters, letters and numbers are allowed.\n*************')
-        continue
-    else:
+    customer_id = generate_id(10)
+    if check_for_doubles(customer_id) is False:
         break
-    
+
+
 while True:   
     first_name = input("Customer's first name: ")
     if len(first_name) > 50:
@@ -74,7 +91,7 @@ date = datetime.datetime.now();
 with db.cursor():
     # This one below works
     sql = """INSERT INTO `customers` (cust_id, first_name, second_name, phone, email, cust_status, date) VALUES (%s, %s, %s, %s, %s, %s, %s) """
-    cursor.execute(sql, (cust_id, first_name, second_name, phone_number, email, cust_status, date))
+    cursor.execute(sql, (customer_id, first_name, second_name, phone_number, email, cust_status, date))
     print("New customer {first_name} {second_name} with ID {cust_id} successfully added.")
     db.commit()
 
