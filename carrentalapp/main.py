@@ -1,9 +1,12 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox)
+from PyQt5 import QtCore
 from addCustomer import CreateCustomerForm
-
+import addCustomer
 
 class LoginForm(QWidget):
+    switch_windows = QtCore.pyqtSignal(str)
+    
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Welcome to Car Rental App')
@@ -29,23 +32,25 @@ class LoginForm(QWidget):
         layout.setRowMinimumHeight(2, 75)
 
         self.setLayout(layout)
+        
 
     def check_password(self):
         msg = QMessageBox()
 
         if self.lineEdit_username.text() == 'admin' and self.lineEdit_password.text() == 'Password1':
-            login_approved = True
             msg.setText(f'Welcome {self.lineEdit_username.text()}')
             msg.exec_()
-            form = CreateCustomerForm()
-            form.show()
+            return True
             # app.quit()
         else:
-            login_approved = False
-            msg.setText('Incorrect Password')
+            msg.setText('Incorrect Login Credentials')
             msg.exec_()
+            return False
 
-
+    def switch(self):
+        self.switch_windows.emit(self.button_login)
+    
+    
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     form = LoginForm()

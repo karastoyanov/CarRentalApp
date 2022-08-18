@@ -18,7 +18,6 @@ class CreateCustomerForm(QWidget):
         self.lineEdit_first_name.setPlaceholderText("Enter Customer\'s First Name")
         layout.addWidget(label_first_name, 0, 0)
         layout.addWidget(self.lineEdit_first_name, 0, 1)
-    
 
         label_last_name = QLabel('<font size="4"> Customer\'s Last Name </font>')
         self.lineEdit_last_name = QLineEdit()

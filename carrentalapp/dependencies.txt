@@ -2,3 +2,4 @@ Following PY librabries are required:
 
 # mypysql --> pip install mypysql
 # pyqt5 --> pip install pyqt5
+# pyqt5-tools --> pip install pyqt5-tools
