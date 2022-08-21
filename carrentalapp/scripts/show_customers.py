@@ -1,11 +1,12 @@
 # Function to list all existing customers
-import carrentalapp.aws_sql_credentials as awsdb
+import aws_sql_credentials as awsdb
 
 db = awsdb.db
 cursor = db.cursor()
 cursor.execute("SELECT * FROM customers")
 result = cursor.fetchall()
 for row in result:
+    print(result[0])
     print("************************************************************************************************")
     print("Customer ID: ", row[0])
     print("Customer Name: ", row[1] + " " + row [2])
