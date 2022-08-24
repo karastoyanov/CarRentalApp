@@ -35,7 +35,7 @@ class LoginForm(QWidget):
         button_login = QPushButton()
         
         # button_login.setText("Log In")
-        button_login.setIcon(QIcon(r'carrentalapp\images\login.png'))
+        button_login.setIcon(QIcon(r'carrentalapp\images\key.png'))
         button_login.clicked.connect(self.check_password)
         # layout.addWidget(button_login, 2, 0)
         button_login.setGeometry(100, 100, 2, 0)

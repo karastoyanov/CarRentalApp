@@ -1,8 +1,8 @@
 import sys
 import random
-from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox)
+from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox, QVBoxLayout)
 from PyQt5.QtGui import (QIcon, QFont, QFontDatabase)
-from PyQt5.QtCore import (QDateTime, QDate, QTime, Qt)
+from PyQt5.QtCore import (QDateTime, QDate, QTime, Qt, QTimer)
 import aws_sql_credentials as awsdb
 
 
@@ -13,40 +13,39 @@ class CreateCustomerForm(QWidget):
         self.resize(1024, 768)
         
         layout = QGridLayout()
-        layout.setRowStretch(8, 20)
         
         font = QFontDatabase.addApplicationFont(r'carrentalapp\fonts\KGRedHands.ttf')
         font_families = QFontDatabase.applicationFontFamilies(font)
         
-        label_first_name = QLabel('<font size="4"> Customer\'s First Name </font>')
+        label_first_name = QLabel('Customer\'s First Name')
         label_first_name.setFont(QFont(font_families[0], 9))
         self.lineEdit_first_name = QLineEdit()
         self.lineEdit_first_name.setPlaceholderText("Enter Customer\'s First Name")
         layout.addWidget(label_first_name, 0, 0)
         layout.addWidget(self.lineEdit_first_name, 0, 1)
 
-        label_last_name = QLabel('<font size="4"> Customer\'s Last Name </font>')
+        label_last_name = QLabel('Customer\'s Last Name')
         label_last_name.setFont(QFont(font_families[0], 9))
         self.lineEdit_last_name = QLineEdit()
         self.lineEdit_last_name.setPlaceholderText("Enter Customer\'s Last Name")
         layout.addWidget(label_last_name, 1, 0)
         layout.addWidget(self.lineEdit_last_name, 1, 1)
         
-        label_phone_number = QLabel('<font size="4"> Customer\'s Phone Number </font>')
+        label_phone_number = QLabel('Phone Number')
         label_phone_number.setFont(QFont(font_families[0], 9))
         self.lineEdit_phone_number = QLineEdit()
         self.lineEdit_phone_number.setPlaceholderText("Enter Customer\'s Phone Number'")
         layout.addWidget(label_phone_number, 2, 0)
         layout.addWidget(self.lineEdit_phone_number, 2, 1)
 
-        label_email_address = QLabel('<font size="4"> Customer\'s Email Address </font>')
+        label_email_address = QLabel('Email Address')
         label_email_address.setFont(QFont(font_families[0], 9))
         self.lineEdit_email_address = QLineEdit()
         self.lineEdit_email_address.setPlaceholderText("Enter Customer\'s Email Address'")
         layout.addWidget(label_email_address, 3, 0)
         layout.addWidget(self.lineEdit_email_address, 3, 1)
         
-        label_customer_status = QLabel('<font size="4"> Customer\'s Status </font>')
+        label_customer_status = QLabel('Customer\'s Status')
         label_customer_status.setFont(QFont(font_families[0], 9))
         self.lineEdit_customer_status = QLineEdit()
         self.lineEdit_customer_status.setText("NEW")
@@ -54,15 +53,16 @@ class CreateCustomerForm(QWidget):
         layout.addWidget(label_customer_status, 4, 0)
         layout.addWidget(self.lineEdit_customer_status, 4, 1)
         
-        label_date = QLabel('<font size="4"> Date Created </font>')
+        label_date = QLabel('Date Created')
         label_date.setFont(QFont(font_families[0], 9))
         self.lineEdit_date_created = QLineEdit()
-        date = QDate().currentDate()
-        time = QTime().currentTime()
-        self.lineEdit_date_created.setText(date.toString(Qt.ISODate) + ' ' + time.toString(Qt.ISODate))
-        self.lineEdit_date_created.setReadOnly(True)
+        timer = QTimer(self)
+        timer.timeout.connect(self.showtime)
+        timer.start()
         layout.addWidget(label_date, 5, 0)
-        layout.addWidget(self.lineEdit_date_created, 5, 1)     
+        layout.addWidget(self.lineEdit_date_created, 5, 1)
+        
+             
         
         button_submit_customer = QPushButton()
         button_submit_customer.clicked.connect(self.save_customerQuery)
@@ -70,7 +70,6 @@ class CreateCustomerForm(QWidget):
         button_submit_customer.setIcon(QIcon(r'carrentalapp\images\save.png'))
         layout.addWidget(button_submit_customer, 10, 0, 1, 2)
         layout.setRowMinimumHeight(2, 75)
-        
         
         button_exit = QPushButton()
         button_exit.setText("Exit")
@@ -86,9 +85,15 @@ class CreateCustomerForm(QWidget):
         layout.addWidget(button_back, 11, 1, 1, 2)
         layout.setRowMinimumHeight(2, 75)
         
-                
+        layout.setRowStretch(8, 100)
         self.setLayout(layout)
         
+        
+        
+    #Fucntion to display the current datetime in real time
+    def showtime(self):
+        datetime = QDateTime.currentDateTime()
+        self.lineEdit_date_created.setText(datetime.toString(Qt.ISODate)) 
         
     #Function to create a new random customer ID -- > \
         #Frist two chars are capital letters followed by 8 digits  
@@ -106,12 +111,13 @@ class CreateCustomerForm(QWidget):
             for row in query_result:
                 to_check = row[0]
                 if generated_id == to_check:
-                    continue
+                    break
                 else:
                     return generated_id
 
     #Function to verify if another customer with same ID already exists -- > \
         #No duplicates are allowed
+    # Feature is implemeted in generate_id function
     def check_for_doubles(customer_id):
         awsdb.cursor.execute("""SELECT * FROM customers""")
         result = awsdb.cursor.fetchall()
@@ -137,8 +143,8 @@ class CreateCustomerForm(QWidget):
         
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    form = CreateCustomerForm()
-    form.show()
-    sys.exit(app.exec_())
+
+app = QApplication(sys.argv)
+win = CreateCustomerForm()
+win.show()
+sys.exit(app.exec_())
