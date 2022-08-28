@@ -1,20 +1,20 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox, QVBoxLayout)
+from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox, QVBoxLayout, QDateEdit)
 from PyQt5.QtGui import (QIcon, QFont, QFontDatabase)
 from PyQt5.QtCore import (QDateTime, QDate, QTime, Qt, QTimer, QSize)
 import aws_sql_credentials as awsdb
 
 
-class MainWindow(QWidget):    
+class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Welcome to Car Rental App")
         self.setWindowIcon(QIcon(r"carrentalapp\images\car-rental.png"))
         self.resize(1024, 768)
         self.buttons()
-        self.showTime()
+        
+        self.labels()
         self.show()
-    
         
     def buttons(self):    
             create_cust_button = QPushButton("Create Customer", self)
@@ -36,21 +36,38 @@ class MainWindow(QWidget):
             # view_vehicles_button.clicked.connect() # add func
             view_vehicles_button.setText("View \n Vehicles")
             view_vehicles_button.setGeometry(10, 280, 200, 80)
-            
     
             contact_button = QPushButton(self)
             # contact_button.clicked.connect() #add func    
             contact_button.setText("Contact Form")
             contact_button.setGeometry(700, 700, 300, 40)
             
+    def labels(self):   
+        datetime_label = QPushButton(self)
+        timer = QTimer(self)
+        # timer.setInterval(100)
+        timer.timeout.connect(self.showDateTime)
+        timer.start()
+        datetime_label.setText(self.showDateTime())
+        datetime_label.setGeometry(700, 600, 300, 40)
+        
+    def showDateTime(self):
+        # label_one = QLabel(self)
+        # font = QFontDatabase.addApplicationFont(r'carrentalapp\fonts\Clearview Font.ttf')
+        # font_families = QFontDatabase.applicationFontFamilies(font)
+        # label_one.setFont(QFont(font_families[0], 10))
+        current_time = QTime.currentTime()
+        label_time = current_time.toString('hh:mm:ss')
+        current_date = QDateTime.currentDateTime()
+        label_date = current_date.toString('dd/mm/yyyy')
+        # label_one.setText(f"Today is: {label_time} {label_date}")
+        # label_one.setGeometry(20, 480, 500, 500)
+        result = f'Today is {label_time} {label_date}'
+        return result
     
-    def showTime(self):
-        label_one = QLabel(self)
-        font = QFontDatabase.addApplicationFont(r'carrentalapp\fonts\Clearview Font.ttf')
-        font_families = QFontDatabase.applicationFontFamilies(font)
-        label_one.setFont(QFont(font_families[0], 10))
-        label_one.setText("Today is: ")
-        label_one.setGeometry(20, 480, 500, 500)
+
+        
+
     
 app = QApplication(sys.argv)
 win = MainWindow()
