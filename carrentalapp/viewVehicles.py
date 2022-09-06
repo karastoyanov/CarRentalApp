@@ -58,4 +58,4 @@ class ViewVehiclesForm(QMainWindow):
 app = QApplication(sys.argv)
 win = ViewVehiclesForm()
 win.show()
-sys.exit(app.exec_())
+sys.exit(app.exec_())   

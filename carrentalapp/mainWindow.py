@@ -12,8 +12,15 @@ class MainWindow(QWidget):
         self.setWindowIcon(QIcon(r"carrentalapp\images\car-rental.png"))
         self.resize(1024, 768)
         self.buttons()
-        
-        self.labels()
+        self.timerLayout = QLabel()
+        time_layout = QVBoxLayout()
+        self.timerLayout.resize(100, 100)
+        self.timerLayout.move(10, 700)
+        time_layout.addWidget(self.timerLayout)
+        self.setLayout(time_layout)
+        timer = QTimer(self)
+        timer.timeout.connect(self.showClock)
+        timer.start()
         self.show()
         
     def buttons(self):    
@@ -41,29 +48,15 @@ class MainWindow(QWidget):
             # contact_button.clicked.connect() #add func    
             contact_button.setText("Contact Form")
             contact_button.setGeometry(700, 700, 300, 40)
-            
-    def labels(self):   
-        datetime_label = QPushButton(self)
-        timer = QTimer(self)
-        # timer.setInterval(100)
-        timer.timeout.connect(self.showDateTime)
-        timer.start()
-        datetime_label.setText(self.showDateTime())
-        datetime_label.setGeometry(700, 600, 300, 40)
-        
-    def showDateTime(self):
-        # label_one = QLabel(self)
-        # font = QFontDatabase.addApplicationFont(r'carrentalapp\fonts\Clearview Font.ttf')
-        # font_families = QFontDatabase.applicationFontFamilies(font)
-        # label_one.setFont(QFont(font_families[0], 10))
+    
+    
+    def showClock(self):        
         current_time = QTime.currentTime()
-        label_time = current_time.toString('hh:mm:ss')
         current_date = QDateTime.currentDateTime()
-        label_date = current_date.toString('dd/mm/yyyy')
-        # label_one.setText(f"Today is: {label_time} {label_date}")
-        # label_one.setGeometry(20, 480, 500, 500)
-        result = f'Today is {label_time} {label_date}'
-        return result
+        time = current_time.toString('hh:mm:ss AP')
+        date = current_date.toString("dd-MM-yyyy dddd")
+        result = f'Today is : {time}\n{date}'
+        self.timerLayout.setText(result)
     
 
         
