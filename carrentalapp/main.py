@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox)
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QFont, QFontDatabase
-from addCustomer import CreateCustomerForm
+from carrentalapp.addCustomer import CreateCustomerForm
 
 
 class LoginForm(QWidget):
