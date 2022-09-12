@@ -1,14 +1,14 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox, QVBoxLayout, QDateEdit)
+from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox, QVBoxLayout, QDateEdit)
 from PyQt5.QtGui import (QIcon, QFont, QFontDatabase)
 from PyQt5.QtCore import (QDateTime, QDate, QTime, Qt, QTimer, QSize)
 import aws_sql_credentials as awsdb
-
-
-class MainWindow(QWidget):
+# from addCustomer import CreateCustomerForm
+import __main__
+class MainMenu(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Welcome to Car Rental App")
+        self.setWindowTitle("Main Windows - Car Rental App")
         self.setWindowIcon(QIcon(r"carrentalapp\images\car-rental.png"))
         self.setFixedSize(1024, 768)
         self.create_customer()
@@ -26,9 +26,15 @@ class MainWindow(QWidget):
         # timer.timeout.connect(self.clock)
         # timer.start()
         self.show()
+    
+    def openCreateCustomer(self):
+        self.window = QMainWindow()
+        self.ui = addCustomer.CreateCustomerForm
+        self.ui.__init__(self.window)
+        self.window.show()
         
     def create_customer(self):    
-        create_cust_button = QPushButton("Create Customer", self)
+        create_cust_button = QPushButton("Create Customer", self, clicked = lambda :self.openCreateCustomer())
         # create_cust_button.clicked.connect() # add func
         create_cust_button.setText("Create \n Customer")
         create_cust_button.setGeometry(10, 10, 200, 80)
@@ -70,6 +76,6 @@ class MainWindow(QWidget):
 
     
 app = QApplication(sys.argv)
-win = MainWindow()
+win = MainMenu()
 win.show()
 sys.exit(app.exec_())

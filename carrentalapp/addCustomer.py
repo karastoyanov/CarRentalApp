@@ -2,16 +2,17 @@ import sys
 import random
 from time import strftime
 import datetime
-from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox, QVBoxLayout, QPlainTextEdit, QComboBox)
+from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox, QVBoxLayout, QPlainTextEdit, QComboBox, QMainWindow)
 from PyQt5.QtGui import (QIcon, QFont, QFontDatabase)
 from PyQt5.QtCore import (QDateTime, QDate, QTime, Qt, QTimer)
 import aws_sql_credentials as awsdb
-
-
-class CreateCustomerForm(QWidget):
+# from mainWindow import MainMenu
+import __main__
+class CreateCustomerForm(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Create New Customer")
+        self.setWindowTitle("Create New Customer - Car Rental App")
+        self.setWindowIcon(QIcon(r"carrentalapp\images\car-rental.png"))
         self.setFixedSize(1024, 768)
         self.first_name()
         self.last_name()
@@ -19,8 +20,15 @@ class CreateCustomerForm(QWidget):
         self.email_address()
         self.customer_status()
         self.date_created()
+        self.back_button()
+        self.save_customer()
         self.show()
-        
+    
+    def openAddCustomer(self):
+        self.window = QMainWindow()
+        self.ui = __main__.CreateCustomerForm
+        self.ui(self.window)
+        self.window.show()        
 
     def first_name(self):
         first_name_label = QLabel(self)
@@ -84,10 +92,21 @@ class CreateCustomerForm(QWidget):
         date_created_layout.move(200, 210)
         date_created_layout.resize(300, 30)
 
+    def back_button(self):
+        back_button = QPushButton(self)
+        # back_button.clicked.connect(self.openAddCustomer()) # add code
+        back_button.setText("Main Menu")
+        back_button.setGeometry(800, 700, 200, 40)
+    
+    def save_customer(self):
+        save_customer = QPushButton(self)
+        # save_customer.clicked.connect() # add code
+        save_customer.setText("Save Customer")
+        save_customer.setGeometry(590, 700, 200, 40)
     
     
     
-    
+
 app = QApplication(sys.argv)
 win = CreateCustomerForm()
 win.show()

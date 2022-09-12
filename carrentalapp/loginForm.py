@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QLineEdit, QGridLayout, QMessageBox)
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QFont, QFontDatabase
-from carrentalapp.addCustomer import CreateCustomerForm
+from addCustomer import CreateCustomerForm
 
 
 class LoginForm(QWidget):
@@ -62,9 +62,9 @@ class LoginForm(QWidget):
 
     
     
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    form = LoginForm()
-    form.show()
-    # sys.exit(app.exec_())
-    app.exec_()
+
+app = QApplication(sys.argv)
+form = LoginForm()
+form.show()
+# sys.exit(app.exec_())
+app.exec_()
